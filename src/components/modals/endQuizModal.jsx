@@ -1,16 +1,27 @@
 import React from "react";
 import { EndQuizWrapper } from "../../styles/modals/endQuizWrapper";
-
-const EndQuizModal = () => {
+import { useHistory } from "react-router-dom";
+const EndQuizModal = ({ correctCount }) => {
+  const history = useHistory();
   return (
     <EndQuizWrapper>
       <div className="quiz-modal">
-        <input type="text" onChange=""></input>
+        <div>Your text will be submitted and it cannot be undone</div>
         <div className="modal-buttons">
           <button className="modal-goback" onClick={() => ""}>
-            Go Back
+            Cancel
           </button>
-          <button className="modal-start">Start</button>
+          <button
+            className="modal-start"
+            onClick={() =>
+              history.push({
+                pathname: "/dashboard",
+                state: { correctCount: correctCount },
+              })
+            }
+          >
+            Submit
+          </button>
         </div>
       </div>
     </EndQuizWrapper>

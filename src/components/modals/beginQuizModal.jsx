@@ -1,8 +1,10 @@
 import React from "react";
 import { BeginQuizWrapper } from "../../styles/modals/beginQuizStyles";
+import { useHistory } from "react-router-dom";
 
 const BeginQuizModal = ({ setShowQuizModal }) => {
   console.log(setShowQuizModal);
+  const history = useHistory();
   return (
     <BeginQuizWrapper>
       <div className="quiz-modal">
@@ -14,7 +16,9 @@ const BeginQuizModal = ({ setShowQuizModal }) => {
           >
             Go Back
           </button>
-          <button className="modal-start">Start</button>
+          <button className="modal-start" onClick={() => history.push("/quiz")}>
+            Start
+          </button>
         </div>
       </div>
     </BeginQuizWrapper>

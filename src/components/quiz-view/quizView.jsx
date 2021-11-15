@@ -9,6 +9,8 @@ import {
 } from "@material-ui/core";
 import clock from "./../../assets/clock.png";
 import EndQuizModal from "../modals/endQuizModal";
+import { MyTimer } from "../myTimer";
+export const correctAnswerContext = React.createContext();
 
 const array = [
   {
@@ -25,7 +27,7 @@ const array = [
     id: "2",
     question: "what is 10 / 5",
     category: "Maths",
-    correctAnswer: "5",
+    correctAnswer: "1",
     option1: "3",
     option2: "5",
     option3: "1",
@@ -35,7 +37,7 @@ const array = [
     id: "3",
     question: "what is 10 / 5",
     category: "Maths",
-    correctAnswer: "5",
+    correctAnswer: "3",
     option1: "3",
     option2: "5",
     option3: "1",
@@ -45,7 +47,7 @@ const array = [
     id: "4",
     question: "what is 10 / 2",
     category: "Maths",
-    correctAnswer: "5",
+    correctAnswer: "9",
     option1: "3",
     option2: "5",
     option3: "1",
@@ -54,10 +56,15 @@ const array = [
 ];
 
 const QuizView = () => {
+  const time = new Date();
+  time.setSeconds(time.getSeconds() + 600);
   const [qno, swtQno] = useState(0);
   const [qValue, setQValue] = useState("");
   const [answer, setAnswers] = useState([]);
+  const [countUpdated, setCountUpdated] = useState([]);
+
   const [endQuizModal, setEndQuizModal] = useState(false);
+  const [correctCount, setCorrectCount] = useState(0);
 
   const handlePrevious = () => {
     if (qno > 0) {
@@ -72,25 +79,30 @@ const QuizView = () => {
     if (qno < array.length - 1) {
       swtQno(qno + 1);
     } else {
+      const count = countUpdated.filter(Boolean).length;
       swtQno(array.length - 1);
+      setCorrectCount(count);
       setEndQuizModal(true);
     }
   };
 
-  const handleAnswerChange = (e, value) => {
-    console.log(e, value);
+  const handleAnswerChange = (e, value, value1) => {
+    let data1 = [...countUpdated];
+    if (value === value1) {
+      data1[qno] = true;
+      setCountUpdated(data1);
+    } else {
+      data1[qno] = false;
+      setCountUpdated(data1);
+    }
+
     let data = { ...answer };
     data[qno] = value;
-    console.log(answer, data);
     setAnswers(data);
     swtQno(qno);
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      setEndQuizModal(true);
-    }, 5000);
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <QuizWrapper>
@@ -106,7 +118,9 @@ const QuizView = () => {
                   <FormControl component="fieldset" className="answer-form">
                     <RadioGroup
                       name={item.id}
-                      onChange={(e, value) => handleAnswerChange(e, value)}
+                      onChange={(e, value) =>
+                        handleAnswerChange(e, value, item.correctAnswer)
+                      }
                       value={answer[qno]}
                       className="answer-radio"
                     >
@@ -174,9 +188,9 @@ const QuizView = () => {
         <button className="quiz-end">End Quiz</button>
 
         <img src={clock} alt=""></img>
-        <div>20 min 00 sec </div>
+        <MyTimer expiryTimestamp={time} setEndQuizModal={setEndQuizModal} />
       </div>
-      {endQuizModal && <EndQuizModal />}
+      {endQuizModal && <EndQuizModal correctCount={correctCount} />}
     </QuizWrapper>
   );
 };
