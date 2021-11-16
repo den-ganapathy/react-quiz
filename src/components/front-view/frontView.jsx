@@ -5,18 +5,17 @@ import BeginQuizModal from "../modals/beginQuizModal";
 import { getQuiz } from "../../actions/quiz";
 import { useDispatch, useSelector } from "react-redux";
 
-const array = [
-  { category: "Maths", time: 10, qCount: 10, level: "easy" },
-  { category: "Maths", time: 10, qCount: 10, level: "easy" },
-  { category: "Maths", time: 10, qCount: 10, level: "easy" },
-  { category: "Maths", time: 10, qCount: 10, level: "easy" },
-];
-
 const FrontView = () => {
   const [showQuizModal, setShowQuizModal] = useState(false);
+  const [quizCategory, setQuizCategory] = useState("");
+
   const dispatch = useDispatch();
   const { quiz, isLoading } = useSelector((state) => state.quiz);
-  // console.log(quiz.quiz.quizDetails, isLoading);
+
+  const handleStart = (category) => {
+    setQuizCategory(category);
+    setShowQuizModal(true);
+  };
 
   useEffect(() => {
     dispatch(getQuiz());
@@ -44,7 +43,7 @@ const FrontView = () => {
                         </div>
                         <button
                           className="quiz-button"
-                          onClick={() => setShowQuizModal(true)}
+                          onClick={() => handleStart(item.category)}
                         >
                           Start
                         </button>
@@ -60,7 +59,12 @@ const FrontView = () => {
           </div>
         </FrontWrapper>
       )}
-      {showQuizModal && <BeginQuizModal setShowQuizModal={setShowQuizModal} />}
+      {showQuizModal && (
+        <BeginQuizModal
+          setShowQuizModal={setShowQuizModal}
+          category={quizCategory}
+        />
+      )}
     </>
   );
 };

@@ -10,52 +10,17 @@ import {
 import clock from "./../../assets/clock.png";
 import EndQuizModal from "../modals/endQuizModal";
 import { MyTimer } from "../myTimer";
-export const correctAnswerContext = React.createContext();
+import { useDispatch, useSelector } from "react-redux";
+import { getQuestions } from "../../actions/quiz";
 
-const array = [
-  {
-    id: "1",
-    question: "what is 10 / 2",
-    category: "Maths",
-    correctAnswer: "5",
-    option1: "3",
-    option2: "5",
-    option3: "1",
-    option4: "9",
-  },
-  {
-    id: "2",
-    question: "what is 10 / 5",
-    category: "Maths",
-    correctAnswer: "1",
-    option1: "3",
-    option2: "5",
-    option3: "1",
-    option4: "9",
-  },
-  {
-    id: "3",
-    question: "what is 10 / 5",
-    category: "Maths",
-    correctAnswer: "3",
-    option1: "3",
-    option2: "5",
-    option3: "1",
-    option4: "9",
-  },
-  {
-    id: "4",
-    question: "what is 10 / 2",
-    category: "Maths",
-    correctAnswer: "9",
-    option1: "3",
-    option2: "5",
-    option3: "1",
-    option4: "9",
-  },
-];
+const QuizView = (props) => {
+  console.log(props);
+  const category = props.location.state.category;
 
-const QuizView = () => {
+  const dispatch = useDispatch();
+  const { quiz, isLoading } = useSelector((state) => state.quiz);
+  console.log(quiz, isLoading);
+
   const time = new Date();
   time.setSeconds(time.getSeconds() + 600);
   const [qno, swtQno] = useState(0);
@@ -76,11 +41,11 @@ const QuizView = () => {
   };
 
   const handleNext = () => {
-    if (qno < array.length - 1) {
+    if (qno < quiz.quizQuestions.length - 1) {
       swtQno(qno + 1);
     } else {
       const count = countUpdated.filter(Boolean).length;
-      swtQno(array.length - 1);
+      swtQno(quiz.quizQuestions.length - 1);
       setCorrectCount(count);
       setEndQuizModal(true);
     }
@@ -102,96 +67,111 @@ const QuizView = () => {
     swtQno(qno);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    dispatch(getQuestions(category));
+  }, [category, dispatch]);
 
   return (
-    <QuizWrapper>
-      <div className="quiz-body">
-        {array.map((item, index) => {
-          return (
-            <div key={index} className="quiz-item">
-              {qno === index && (
-                <>
-                  <div component="legend" className="answer-form-label">
-                    {item.question}
+    <>
+      {isLoading ? (
+        <div>Loading</div>
+      ) : (
+        <QuizWrapper>
+          <div className="quiz-body">
+            {quiz?.quizQuestions &&
+              quiz.quizQuestions.map((item, index) => {
+                return (
+                  <div key={index} className="quiz-item">
+                    {qno === index && (
+                      <>
+                        <div component="legend" className="answer-form-label">
+                          {item.question}
+                        </div>
+                        <FormControl
+                          component="fieldset"
+                          className="answer-form"
+                        >
+                          <RadioGroup
+                            name={item.id}
+                            onChange={(e, value) =>
+                              handleAnswerChange(e, value, item.correctAnswer)
+                            }
+                            value={answer[qno]}
+                            className="answer-radio"
+                          >
+                            <FormControlLabel
+                              value={item.option1}
+                              control={<Radio color="primary" />}
+                              label={item.option1}
+                              className={
+                                answer[qno] === item.option1
+                                  ? "answer-radio-item1"
+                                  : "answer-radio-item2"
+                              }
+                            />
+                            <FormControlLabel
+                              value={item.option2}
+                              control={<Radio color="primary" />}
+                              label={item.option2}
+                              className={
+                                answer[qno] === item.option2
+                                  ? "answer-radio-item1"
+                                  : "answer-radio-item2"
+                              }
+                            />
+                            <FormControlLabel
+                              value={item.option3}
+                              control={<Radio color="primary" />}
+                              label={item.option3}
+                              className={
+                                answer[qno] === item.option3
+                                  ? "answer-radio-item1"
+                                  : "answer-radio-item2"
+                              }
+                            />
+                            <FormControlLabel
+                              value={item.option4}
+                              control={<Radio color="primary" />}
+                              label={item.option4}
+                              className={
+                                answer[qno] === item.option4
+                                  ? "answer-radio-item1"
+                                  : "answer-radio-item2"
+                              }
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </>
+                    )}
                   </div>
-                  <FormControl component="fieldset" className="answer-form">
-                    <RadioGroup
-                      name={item.id}
-                      onChange={(e, value) =>
-                        handleAnswerChange(e, value, item.correctAnswer)
-                      }
-                      value={answer[qno]}
-                      className="answer-radio"
-                    >
-                      <FormControlLabel
-                        value={item.option1}
-                        control={<Radio color="primary" />}
-                        label={item.option1}
-                        className={
-                          answer[qno] === item.option1
-                            ? "answer-radio-item1"
-                            : "answer-radio-item2"
-                        }
-                      />
-                      <FormControlLabel
-                        value={item.option2}
-                        control={<Radio color="primary" />}
-                        label={item.option2}
-                        className={
-                          answer[qno] === item.option2
-                            ? "answer-radio-item1"
-                            : "answer-radio-item2"
-                        }
-                      />
-                      <FormControlLabel
-                        value={item.option3}
-                        control={<Radio color="primary" />}
-                        label={item.option3}
-                        className={
-                          answer[qno] === item.option3
-                            ? "answer-radio-item1"
-                            : "answer-radio-item2"
-                        }
-                      />
-                      <FormControlLabel
-                        value={item.option4}
-                        control={<Radio color="primary" />}
-                        label={item.option4}
-                        className={
-                          answer[qno] === item.option4
-                            ? "answer-radio-item1"
-                            : "answer-radio-item2"
-                        }
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                </>
+                );
+              })}
+
+            <div className="quiz-button">
+              {qno !== 0 && (
+                <button
+                  className="quiz-previous"
+                  onClick={() => handlePrevious()}
+                >
+                  Previous
+                </button>
               )}
+
+              <button className="quiz-next" onClick={() => handleNext()}>
+                {qno !== quiz?.quizQuestions?.length - 1 ? "Next" : "Submit"}
+              </button>
             </div>
-          );
-        })}
+          </div>
+          <div className="timer">
+            <button className="quiz-end">End Quiz</button>
 
-        <div className="quiz-button">
-          {qno !== 0 && (
-            <button className="quiz-previous" onClick={() => handlePrevious()}>
-              Previous
-            </button>
-          )}
-
-          <button className="quiz-next" onClick={() => handleNext()}>
-            {qno !== array.length - 1 ? "Next" : "Submit"}
-          </button>
-        </div>
-      </div>
-      <div className="timer">
-        <button className="quiz-end">End Quiz</button>
-
-        <img src={clock} alt=""></img>
-        <MyTimer expiryTimestamp={time} setEndQuizModal={setEndQuizModal} />
-      </div>
-      {endQuizModal && <EndQuizModal correctCount={correctCount} />}
-    </QuizWrapper>
+            <img src={clock} alt=""></img>
+            <MyTimer expiryTimestamp={time} setEndQuizModal={setEndQuizModal} />
+          </div>
+          {endQuizModal && <EndQuizModal correctCount={correctCount} />}
+        </QuizWrapper>
+      )}
+    </>
   );
 };
 

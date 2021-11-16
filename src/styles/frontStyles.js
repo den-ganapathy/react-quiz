@@ -49,18 +49,16 @@ export const FrontWrapper = styled.div`
           }
           .quiz-button {
             border: none;
-            border-radius: 5px;
+            border-radius: 0.5rem;
             font-size: 1rem;
-            border: 3px solid #449302;
-            color: #449302;
-            background-color: #fff;
+            color: #fff;
+            background-color: #06d609;
             margin: 1.5rem 0 0.5rem 0;
             padding: 0.6rem 1.5rem;
             cursor: pointer;
             font-weight: bold;
             :hover {
-              background-color: #449302;
-              color: #fff;
+              background-color: #04af07;
             }
           }
         }
