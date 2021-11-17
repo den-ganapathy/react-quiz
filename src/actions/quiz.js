@@ -7,10 +7,12 @@ import {
 
 import * as api from "./../api";
 
-export const getQuiz = () => async (dispatch) => {
+export const getQuiz = (search) => async (dispatch) => {
   try {
-    dispatch({ type: START_LOADING });
-    const { data } = await api.fetchQuiz();
+    if (search === "") {
+      dispatch({ type: START_LOADING });
+    }
+    const { data } = await api.fetchQuiz(search);
     console.log(data);
     dispatch({ type: FETCH_QUIZ, payload: { quiz: data } });
     dispatch({ type: END_LOADING });

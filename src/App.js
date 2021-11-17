@@ -9,7 +9,7 @@ import QuizView from "./components/quiz-view/quizView";
 function App() {
   return (
     <Router>
-      {/* <Header /> */}
+      <Header />
       <Route exact path="/dashboard" component={Dashboard} />
       <Route exact path="/" component={FrontView} />
       <Route exact path="/quiz" component={QuizView} />
