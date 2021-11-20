@@ -1,7 +1,7 @@
 import React from "react";
 import { EndQuizWrapper } from "../../styles/modals/endQuizWrapper";
 import { useHistory } from "react-router-dom";
-const EndQuizModal = ({ correctCount }) => {
+const EndQuizModal = ({ correctCount, wrongCount, answer, countUpdated }) => {
   const history = useHistory();
   return (
     <EndQuizWrapper>
@@ -16,7 +16,11 @@ const EndQuizModal = ({ correctCount }) => {
             onClick={() =>
               history.push({
                 pathname: "/dashboard",
-                state: { correctCount: correctCount },
+                state: {
+                  correctCount: correctCount,
+                  answer: answer,
+                  countUpdated: countUpdated,
+                },
               })
             }
           >

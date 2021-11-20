@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { QuizWrapper } from "../../styles/quizStyles";
+import { ViewAnswerWrapper } from "../../styles/viewAnswerStyles";
+import { useHistory } from "react-router-dom";
+
 import {
   FormControl,
   FormLabel,
@@ -7,33 +9,27 @@ import {
   RadioGroup,
   Radio,
 } from "@material-ui/core";
-import clock from "./../../assets/clock.png";
-import EndQuizModal from "../modals/endQuizModal";
-import { MyTimer } from "../myTimer";
+
 import { useDispatch, useSelector } from "react-redux";
 import { getQuestions } from "../../actions/quiz";
+import { PieChart } from "recharts";
 
-const QuizView = (props) => {
+const ViewAnswer = (props) => {
+  //   console.log(props);
+  //   const category = props.location.state.category;
+  //   const quizTime = props.location.state.time;
   console.log(props);
-  const category = props.location.state.category;
-  const quizTime = props.location.state.time;
+  const answers = props?.location?.answer;
 
+  const history = useHistory();
   const dispatch = useDispatch();
   const { quiz, isLoading } = useSelector((state) => state.quiz);
-  console.log(quiz, isLoading);
+  console.log(quiz, isLoading, answers);
 
-  const time = new Date();
-  time.setSeconds(time.getSeconds() + quizTime * 60);
   const [qno, setQno] = useState(0);
-  const [qValue, setQValue] = useState("");
+  // console.log(answers[qno], quiz.quizQuestions[0].correctAnswer);
   const [answer, setAnswers] = useState([]);
   const [countUpdated, setCountUpdated] = useState([]);
-
-  const [endQuizModal, setEndQuizModal] = useState(false);
-  const [correctCount, setCorrectCount] = useState(0);
-  const [wrongCount, setWrongCount] = useState(0);
-
-  console.log(countUpdated, answer);
 
   const handlePrevious = () => {
     if (qno > 0) {
@@ -49,12 +45,8 @@ const QuizView = (props) => {
       setQno(qno + 1);
     } else {
       const count = countUpdated.filter(Boolean).length;
-      const wrongCount = countUpdated.filter(Boolean).length;
-      console.log(wrongCount);
       setQno(quiz.quizQuestions.length - 1);
-      setCorrectCount(count);
-      setWrongCount(wrongCount);
-      setEndQuizModal(true);
+      history.push("/");
     }
   };
 
@@ -75,18 +67,25 @@ const QuizView = (props) => {
   };
 
   useEffect(() => {
-    dispatch(getQuestions(category));
-  }, [category, dispatch]);
+    dispatch(getQuestions("Maths-1"));
+  }, [dispatch]);
 
   return (
     <>
       {isLoading ? (
         <div>Loading</div>
       ) : (
-        <QuizWrapper>
+        <ViewAnswerWrapper>
           <div className="quiz-body">
             {quiz?.quizQuestions &&
               quiz.quizQuestions.map((item, index) => {
+                console.log(
+                  answers[qno],
+                  item.option1,
+                  item.option2,
+                  item.option3,
+                  item.option4
+                );
                 return (
                   <div key={index} className="quiz-item">
                     {qno === index && (
@@ -103,47 +102,59 @@ const QuizView = (props) => {
                             onChange={(e, value) =>
                               handleAnswerChange(e, value, item.correctAnswer)
                             }
-                            value={answer[qno]}
+                            value={item.correctAnswer}
                             className="answer-radio"
                           >
                             <FormControlLabel
                               value={item.option1}
-                              control={<Radio color="primary" />}
+                              control={<Radio color="success" />}
                               label={item.option1}
                               className={
-                                answer[qno] === item.option1
+                                item.correctAnswer === item.option1
                                   ? "answer-radio-item1"
-                                  : "answer-radio-item2"
+                                  : answers[qno] === undefined
+                                  ? "answer-radio-item3"
+                                  : answers[qno] === item.option1
+                                  ? "answer-radio-item2"
+                                  : "answer-radio-item3"
                               }
                             />
                             <FormControlLabel
                               value={item.option2}
-                              control={<Radio color="primary" />}
+                              control={<Radio color="success" />}
                               label={item.option2}
                               className={
-                                answer[qno] === item.option2
+                                item.correctAnswer === item.option2
                                   ? "answer-radio-item1"
-                                  : "answer-radio-item2"
+                                  : answers[qno] === undefined
+                                  ? "answer-radio-item3"
+                                  : answers[qno] === item.option2
+                                  ? "answer-radio-item2"
+                                  : "answer-radio-item3"
                               }
                             />
                             <FormControlLabel
                               value={item.option3}
-                              control={<Radio color="primary" />}
+                              control={<Radio color="success" />}
                               label={item.option3}
                               className={
-                                answer[qno] === item.option3
+                                item.correctAnswer === item.option3
                                   ? "answer-radio-item1"
-                                  : "answer-radio-item2"
+                                  : answers[qno] === item.option3
+                                  ? "answer-radio-item2"
+                                  : "answer-radio-item3"
                               }
                             />
                             <FormControlLabel
                               value={item.option4}
-                              control={<Radio color="primary" />}
+                              control={<Radio color="success" />}
                               label={item.option4}
                               className={
-                                answer[qno] === item.option4
+                                item.correctAnswer === item.option4
                                   ? "answer-radio-item1"
-                                  : "answer-radio-item2"
+                                  : answers[qno] === item.option4
+                                  ? "answer-radio-item2"
+                                  : "answer-radio-item3"
                               }
                             />
                           </RadioGroup>
@@ -169,24 +180,10 @@ const QuizView = (props) => {
               </button>
             </div>
           </div>
-          <div className="timer">
-            <button className="quiz-end">End Quiz</button>
-
-            <img src={clock} alt=""></img>
-            <MyTimer expiryTimestamp={time} setEndQuizModal={setEndQuizModal} />
-          </div>
-          {endQuizModal && (
-            <EndQuizModal
-              correctCount={correctCount}
-              wrongCount={wrongCount}
-              countUpdated={countUpdated}
-              answer={answer}
-            />
-          )}
-        </QuizWrapper>
+        </ViewAnswerWrapper>
       )}
     </>
   );
 };
 
-export default QuizView;
+export default ViewAnswer;

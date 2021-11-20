@@ -4,6 +4,7 @@ import clockImg from "./../../assets/clock.png";
 import BeginQuizModal from "../modals/beginQuizModal";
 import { getQuiz } from "../../actions/quiz";
 import { useDispatch, useSelector } from "react-redux";
+import { BsBoxArrowRight } from "react-icons/bs";
 import axios from "axios";
 import _ from "lodash";
 
@@ -14,12 +15,13 @@ const FrontView = () => {
   const [showQuizModal, setShowQuizModal] = useState(false);
   const [quizCategory, setQuizCategory] = useState("");
   const [search, setSearch] = useState("");
-
+  const [time, setTime] = useState(0);
   const dispatch = useDispatch();
   const { quiz, isLoading } = useSelector((state) => state.quiz);
 
-  const handleStart = (category) => {
+  const handleStart = (category, time) => {
     setQuizCategory(category);
+    setTime(time);
     setShowQuizModal(true);
   };
 
@@ -67,9 +69,14 @@ const FrontView = () => {
                           </div>
                           <button
                             className="quiz-button"
-                            onClick={() => handleStart(item.category)}
+                            onClick={() =>
+                              handleStart(item.category, item.time)
+                            }
                           >
-                            Start
+                            Start{" "}
+                            <span>
+                              <BsBoxArrowRight />
+                            </span>
                           </button>
                         </div>
                         <div className="quiz-content-right">
@@ -88,6 +95,7 @@ const FrontView = () => {
         <BeginQuizModal
           setShowQuizModal={setShowQuizModal}
           category={quizCategory}
+          time={time}
         />
       )}
     </>

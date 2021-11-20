@@ -18,6 +18,9 @@ export const FrontWrapper = styled.div`
     padding-top: 7rem;
     input {
       padding: 0.5rem;
+      width: 15rem;
+      border: none;
+      border: 2px solid orange;
     }
   }
   .quiz-container {
@@ -43,6 +46,7 @@ export const FrontWrapper = styled.div`
         font-size: 1.2rem;
         font-weight: bold;
         color: #fff;
+        background: rgb(222, 102, 30);
       }
       .quiz-content {
         display: flex;
@@ -59,17 +63,26 @@ export const FrontWrapper = styled.div`
           .quiz-label {
           }
           .quiz-button {
+            display: flex;
+            align-items: center;
             border: none;
             border-radius: 0.5rem;
             font-size: 1rem;
             color: #fff;
-            background-color: #06d609;
+            background-color: #48a268;
             margin: 1.5rem 0 0.5rem 0;
             padding: 0.6rem 1.5rem;
             cursor: pointer;
             font-weight: bold;
+
             :hover {
-              background-color: #04af07;
+              background-color: #3e905b;
+            }
+            span {
+              display: flex;
+              align-items: center;
+              font-size: 1.5rem;
+              padding-left: 1rem;
             }
           }
         }

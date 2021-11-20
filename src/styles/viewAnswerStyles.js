@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const QuizWrapper = styled.div`
+export const ViewAnswerWrapper = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
@@ -38,18 +38,25 @@ export const QuizWrapper = styled.div`
           color: #123456;
         }
         .answer-radio {
-          &-item2 {
-            padding: 0.1rem;
-            margin: 0.5rem;
-            background-color: white;
-            border: 1px solid grey;
-            border-radius: 0.5rem;
-          }
           &-item1 {
             padding: 0.1rem;
             margin: 0.5rem;
-            background-color: lightblue;
-            border: 2px solid #164392;
+            background-color: #b3ea91;
+            border: 2px solid darkgreen;
+            border-radius: 0.5rem;
+          }
+          &-item2 {
+            padding: 0.1rem;
+            margin: 0.5rem;
+            background-color: #eaa391;
+            border: 2px solid red;
+            border-radius: 0.5rem;
+          }
+          &-item3 {
+            padding: 0.1rem;
+            margin: 0.5rem;
+            background-color: white;
+            border: 2px solid gray;
             border-radius: 0.5rem;
           }
         }
