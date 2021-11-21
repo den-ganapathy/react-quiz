@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
-export const EndQuizWrapper = styled.div`
+export const SuccessWrapper = styled.div`
   width: 100%;
   height: 100%;
   position: fixed;
-  background-color: black;
-  .quiz-modal {
+  background-color: white;
+  .success-modal {
     position: fixed;
     width: 25rem;
     height: auto;
@@ -14,38 +14,18 @@ export const EndQuizWrapper = styled.div`
     top: 50%;
     transform: translate(-50%, -50%);
     box-shadow: 0 0 10px grey;
-
     background-color: #fff;
     z-index: 999;
+    text-align: center;
+
     .modal-buttons {
       display: flex;
-      justify-content: space-between;
-      .modal-goback {
+      justify-content: center;
+      padding-top: 1rem;
+      .modal-result {
         border: none;
         border-radius: 5px;
         font-size: 1rem;
-
-        background: -webkit-linear-gradient(
-          90deg,
-          rgba(9, 9, 121, 1) 0%,
-          rgba(0, 212, 255, 1) 100%
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-
-        background-color: #fff;
-
-        margin: 1.5rem 0 0.5rem 0;
-        /* padding: 0.6rem 1.5rem; */
-        cursor: pointer;
-        font-weight: bold;
-      }
-      .modal-start {
-        flex: 0 0 30%;
-        border: none;
-        border-radius: 5px;
-        font-size: 1rem;
-
         margin: 1.5rem 0 0.5rem 0;
         padding: 0.6rem 1.5rem;
         cursor: pointer;

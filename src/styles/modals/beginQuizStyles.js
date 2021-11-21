@@ -48,12 +48,10 @@ export const BeginQuizWrapper = styled.div`
       display: flex;
       justify-content: space-between;
       .modal-goback {
-        /* flex: 0 0 30%; */
         border: none;
         border-radius: 5px;
         font-size: 1rem;
-        /* color: #449302; */
-        /* background: rgb(2, 0, 36); */
+
         background: -webkit-linear-gradient(
           90deg,
           rgba(9, 9, 121, 1) 0%,
@@ -61,13 +59,7 @@ export const BeginQuizWrapper = styled.div`
         );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        /* color: linear-gradient(
-          90deg,
-          rgba(2, 0, 36, 1) 0%,
-          rgba(0, 212, 255, 1) 0%,
-          rgba(9, 9, 121, 1) 00%,
-          rgba(0, 212, 255, 1) 100%
-        ); */
+
         background-color: #fff;
 
         margin: 1.5rem 0 0.5rem 0;

@@ -6,7 +6,7 @@ export const QuizWrapper = styled.div`
   height: 100vh;
   justify-content: space-evenly;
   align-items: center;
-  background-color: #0e2368;
+  background-color: lightblue;
   /* background-image: linear-gradient(#123456, violet); */
   .quiz-body {
     display: flex;
@@ -91,8 +91,11 @@ export const QuizWrapper = styled.div`
     }
   }
   .timer {
+    /* background-color: white; */
+    padding: 2rem;
     display: flex;
     flex: 0 0 25%;
+    /* background-color: royalblue; */
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -111,6 +114,34 @@ export const QuizWrapper = styled.div`
         opacity: 0.9;
       }
     }
+    /* .answer-container {
+      width: 80%;
+      display: flex;
+      background-color: white;
+      justify-content: space-evenly;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      .answer-item1 {
+        width: 2rem;
+        height: 2rem;
+        padding: 0.2rem;
+        border-radius: 50%;
+        background-color: green;
+        color: white;
+        font-weight: bold;
+        border: 2px solid green;
+      }
+      .answer-item2 {
+        width: 2rem;
+        height: 2rem;
+        padding: 0.2rem;
+        border-radius: 50%;
+        background-color: white;
+        color: white;
+        border: 2px solid gray;
+        font-weight: bold;
+      }
+    } */
     img {
       display: flex;
       align-items: center;

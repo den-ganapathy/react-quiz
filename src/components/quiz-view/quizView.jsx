@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import clock from "./../../assets/clock.png";
 import EndQuizModal from "../modals/endQuizModal";
+import SuccessModal from "./../modals/successModal";
 import { MyTimer } from "../myTimer";
 import { useDispatch, useSelector } from "react-redux";
 import { getQuestions } from "../../actions/quiz";
@@ -17,6 +18,7 @@ const QuizView = (props) => {
   console.log(props);
   const category = props.location.state.category;
   const quizTime = props.location.state.time;
+  const noOfQuestion = props.location.state.noOfQuestion;
 
   const dispatch = useDispatch();
   const { quiz, isLoading } = useSelector((state) => state.quiz);
@@ -28,7 +30,7 @@ const QuizView = (props) => {
   const [qValue, setQValue] = useState("");
   const [answer, setAnswers] = useState([]);
   const [countUpdated, setCountUpdated] = useState([]);
-
+  const [successModal, setSuccessModal] = useState(false);
   const [endQuizModal, setEndQuizModal] = useState(false);
   const [correctCount, setCorrectCount] = useState(0);
   const [wrongCount, setWrongCount] = useState(0);
@@ -58,6 +60,16 @@ const QuizView = (props) => {
     }
   };
 
+  const handleEnd = () => {
+    const count = countUpdated.filter(Boolean).length;
+    const wrongCount = countUpdated.filter(Boolean).length;
+    console.log(wrongCount);
+    setQno(quiz.quizQuestions.length - 1);
+    setCorrectCount(count);
+    setWrongCount(wrongCount);
+    setEndQuizModal(true);
+  };
+
   const handleAnswerChange = (e, value, value1) => {
     let data1 = [...countUpdated];
     if (value === value1) {
@@ -78,6 +90,21 @@ const QuizView = (props) => {
     dispatch(getQuestions(category));
   }, [category, dispatch]);
 
+  useEffect(() => {
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
+  const handleBeforeUnload = (e) => {
+    e.preventDefault();
+    const message =
+      "Are you sure you want to leave? All provided data will be lost.";
+    e.returnValue = message;
+    return message;
+  };
+
   return (
     <>
       {isLoading ? (
@@ -92,7 +119,7 @@ const QuizView = (props) => {
                     {qno === index && (
                       <>
                         <div component="legend" className="answer-form-label">
-                          {item.question}
+                          {qno + 1}.&ensp; {item.question}
                         </div>
                         <FormControl
                           component="fieldset"
@@ -170,17 +197,43 @@ const QuizView = (props) => {
             </div>
           </div>
           <div className="timer">
-            <button className="quiz-end">End Quiz</button>
+            <button className="quiz-end" onClick={() => handleEnd()}>
+              End Quiz
+            </button>
+
+            {/* <div className="answer-container">
+              {quiz?.quizQuestions &&
+                quiz.quizQuestions.map((item, index) => {
+                  return (
+                    <div
+                      className={
+                        answered.includes(qno) || 1 === index
+                          ? "answer-item1"
+                          : "answer-item2"
+                      }
+                    >
+                      {index}
+                    </div>
+                  );
+                })}
+            </div> */}
 
             <img src={clock} alt=""></img>
             <MyTimer expiryTimestamp={time} setEndQuizModal={setEndQuizModal} />
           </div>
           {endQuizModal && (
             <EndQuizModal
+              setEndQuizModal={setEndQuizModal}
+              setSuccessModal={setSuccessModal}
+            />
+          )}
+          {successModal && (
+            <SuccessModal
               correctCount={correctCount}
               wrongCount={wrongCount}
               countUpdated={countUpdated}
               answer={answer}
+              noOfQuestion={noOfQuestion}
             />
           )}
         </QuizWrapper>

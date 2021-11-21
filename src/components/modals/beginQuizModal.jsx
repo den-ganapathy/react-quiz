@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { BeginQuizWrapper } from "../../styles/modals/beginQuizStyles";
 import { useHistory } from "react-router-dom";
 import { quizConditions } from "./../../constants/quizDetails";
-const BeginQuizModal = ({ setShowQuizModal, category, time }) => {
+const BeginQuizModal = ({ setShowQuizModal, category, time, noOfQuestion }) => {
   console.log(setShowQuizModal, category);
   const [name, setName] = useState("");
   const [error, setError] = useState("");
@@ -24,7 +24,12 @@ const BeginQuizModal = ({ setShowQuizModal, category, time }) => {
       setError("");
       history.push({
         pathname: "/quiz",
-        state: { category: category, name: name, time: time },
+        state: {
+          category: category,
+          name: name,
+          time: time,
+          noOfQuestion: noOfQuestion,
+        },
       });
     }
   };

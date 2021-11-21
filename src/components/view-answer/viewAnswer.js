@@ -176,7 +176,7 @@ const ViewAnswer = (props) => {
               )}
 
               <button className="quiz-next" onClick={() => handleNext()}>
-                {qno !== quiz?.quizQuestions?.length - 1 ? "Next" : "Submit"}
+                {qno !== quiz?.quizQuestions?.length - 1 ? "Next" : "Home"}
               </button>
             </div>
           </div>

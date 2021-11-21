@@ -15,12 +15,19 @@ export const DashboardWrapper = styled.div`
     flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
+
     .graph-item {
       display: flex;
       flex: 0 0 25%;
       box-shadow: 0 0 10px grey;
-      padding: 2rem;
-      align-items: center;
+      padding: 2rem 3rem 2rem 1rem;
+      /* align-items: center; */
+      justify-content: center;
+
+      .bar {
+        display: flex;
+        justify-content: center;
+      }
     }
   }
   .buttons-container {

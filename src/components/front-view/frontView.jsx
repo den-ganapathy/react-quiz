@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BsBoxArrowRight } from "react-icons/bs";
 import axios from "axios";
 import _ from "lodash";
+import { LoadingWrapper } from "../../styles/utils/loadingStyles";
 
 const FrontView = () => {
   const { debounce } = _;
@@ -16,12 +17,14 @@ const FrontView = () => {
   const [quizCategory, setQuizCategory] = useState("");
   const [search, setSearch] = useState("");
   const [time, setTime] = useState(0);
+  const [noOfQuestion, setNoOfQuestion] = useState(0);
   const dispatch = useDispatch();
   const { quiz, isLoading } = useSelector((state) => state.quiz);
 
-  const handleStart = (category, time) => {
+  const handleStart = (category, time, questionCount) => {
     setQuizCategory(category);
     setTime(time);
+    setNoOfQuestion(questionCount);
     setShowQuizModal(true);
   };
 
@@ -40,19 +43,19 @@ const FrontView = () => {
 
   return (
     <>
-      {isLoading ? (
-        <div>Loading</div>
-      ) : (
-        !showQuizModal && (
-          <FrontWrapper showQuizModal>
-            <div className="searchbar">
-              <input
-                value={search}
-                placeholder="Search..."
-                type="text"
-                onChange={(e) => setSearch(e.target.value)}
-              ></input>
-            </div>
+      {!showQuizModal && (
+        <FrontWrapper showQuizModal>
+          <div className="searchbar">
+            <input
+              value={search}
+              placeholder="Search..."
+              type="text"
+              onChange={(e) => setSearch(e.target.value)}
+            ></input>
+          </div>
+          {isLoading ? (
+            <LoadingWrapper />
+          ) : (
             <div className="quiz-container">
               {quiz?.quiz?.quizDetails &&
                 quiz.quiz.quizDetails.map((item) => {
@@ -70,7 +73,11 @@ const FrontView = () => {
                           <button
                             className="quiz-button"
                             onClick={() =>
-                              handleStart(item.category, item.time)
+                              handleStart(
+                                item.category,
+                                item.time,
+                                item.noOfQuestion
+                              )
                             }
                           >
                             Start{" "}
@@ -88,14 +95,16 @@ const FrontView = () => {
                   );
                 })}
             </div>
-          </FrontWrapper>
-        )
+          )}
+        </FrontWrapper>
       )}
+
       {showQuizModal && (
         <BeginQuizModal
           setShowQuizModal={setShowQuizModal}
           category={quizCategory}
           time={time}
+          noOfQuestion={noOfQuestion}
         />
       )}
     </>

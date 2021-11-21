@@ -18,12 +18,11 @@ import {
 const Dashboard = (props) => {
   const history = useHistory();
   console.log(props);
-  const { answer, countUpdated, correctCount } = props?.location?.state;
-  console.log(
-    countUpdated.filter(Boolean).length,
-    !countUpdated.filter(Boolean).length
-  );
-  // console.log(answer, countUpdated, correctCount);
+  // const { answer, countUpdated, correctCount } = props?.location?.state;
+  const answer = props?.location?.state?.answer;
+  const countUpdated = props?.location?.state?.countUpdated;
+  const noOfQuestion = props?.location?.state?.noOfQuestion;
+  console.log(answer);
 
   const handleClick = () => {
     history.push({ pathname: "/view-answers", answer: answer });
@@ -31,74 +30,75 @@ const Dashboard = (props) => {
 
   return (
     <DashboardWrapper>
-      <div className="marks-scored">
-        You have scored {countUpdated.filter(Boolean).length} Marks
-      </div>
-
-      <div className="graph-container">
-        <div className="graph-item">
-          {/* <ResponsiveContainer> */}
-          <BarChart
-            width={300}
-            height={300}
-            barGap={20}
-            data={[
-              {
-                name: "",
-                correct: countUpdated.filter(Boolean).length,
-                wrong: !countUpdated.filter(Boolean).length,
-                unanswered:
-                  countUpdated.filter(Boolean).length -
-                  !countUpdated.filter(Boolean).length,
-              },
-            ]}
-          >
-            <XAxis
-              dataKey="name"
-              tick={{ stroke: "#123456", strokeWidth: 0 }}
-              tickLine={false}
-              tickSize={10}
-              fill="#123456"
-              color="#123456"
-            />
-            <YAxis tick={{ stroke: "#123456" }} />
-            <Tooltip />
-            <Legend />
-            <Bar
-              label={{ position: "top" }}
-              dataKey="correct"
-              fill="#5BDA12"
-              width={30}
-              height={25}
-              barSize={40}
-            />
-            <Bar
-              label={{ position: "top" }}
-              dataKey="wrong"
-              fill="#F44840"
-              width={30}
-              height={25}
-              barSize={40}
-            />
-            <Bar
-              label={{ position: "top" }}
-              dataKey="unanswered"
-              fill="#EEB316"
-              width={30}
-              height={25}
-              barSize={40}
-            />
-          </BarChart>
-          {/* </ResponsiveContainer> */}
+      {answer && (
+        <div className="marks-scored">
+          You scored {countUpdated.filter(Boolean).length} out of {noOfQuestion}
         </div>
-      </div>
+      )}
+
+      {answer && (
+        <div className="graph-container">
+          <div className="graph-item">
+            {/* <ResponsiveContainer> */}
+            <BarChart
+              width={320}
+              height={320}
+              barGap={30}
+              data={[
+                {
+                  name: "",
+                  correct: countUpdated.filter(Boolean).length,
+                  wrong: countUpdated.filter((item) => item === false).length,
+                  unanswered:
+                    noOfQuestion -
+                    countUpdated.filter(Boolean).length -
+                    countUpdated.filter((item) => item === false).length,
+                },
+              ]}
+            >
+              <XAxis dataKey="name" fill="#123456" color="#123456" />
+              <YAxis tick={{ stroke: "#123456" }} />
+              <Tooltip />
+              <Legend />
+              <Bar
+                label={{ position: "top" }}
+                dataKey="correct"
+                fill="#5BDA12"
+                width={30}
+                height={25}
+                barSize={40}
+              />
+              <Bar
+                label={{ position: "top" }}
+                dataKey="wrong"
+                fill="#F44840"
+                width={30}
+                height={25}
+                barSize={40}
+              />
+              <Bar
+                label={{ position: "top" }}
+                dataKey="unanswered"
+                fill="#EEB316"
+                width={30}
+                height={25}
+                barSize={40}
+              />
+            </BarChart>
+
+            {/* </ResponsiveContainer> */}
+          </div>
+        </div>
+      )}
       <div className="buttons-container">
-        <button className="view-answer" onClick={() => handleClick()}>
-          View Answers{" "}
-          <span>
-            <MdOpenInNew />
-          </span>
-        </button>
+        {answer && (
+          <button className="view-answer" onClick={() => handleClick()}>
+            View Answers{" "}
+            <span>
+              <MdOpenInNew />
+            </span>
+          </button>
+        )}
         <button className="back-home" onClick={() => history.push("/")}>
           <span>
             <MdOutlineHome />

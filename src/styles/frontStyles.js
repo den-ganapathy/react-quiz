@@ -17,10 +17,11 @@ export const FrontWrapper = styled.div`
     align-items: center;
     padding-top: 7rem;
     input {
-      padding: 0.5rem;
-      width: 15rem;
+      padding: 0.8rem 0.5rem;
+      width: 10rem;
       border: none;
-      border: 2px solid orange;
+      border: 3px solid #123456;
+      border-radius: 0.5rem;
     }
   }
   .quiz-container {
