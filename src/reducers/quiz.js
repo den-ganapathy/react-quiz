@@ -6,7 +6,6 @@ import {
 } from "./../constants/actionTypes";
 
 const quizReducer = (state = { isLoading: true, quiz: [] }, action) => {
-  console.log(action.payload);
   switch (action.type) {
     case START_LOADING:
       return { ...state, isLoading: true };

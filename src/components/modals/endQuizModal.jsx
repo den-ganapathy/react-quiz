@@ -1,15 +1,6 @@
 import React from "react";
 import { EndQuizWrapper } from "../../styles/modals/endQuizWrapper";
-import { useHistory } from "react-router-dom";
-const EndQuizModal = ({
-  correctCount,
-  wrongCount,
-  answer,
-  countUpdated,
-  setEndQuizModal,
-  setSuccessModal,
-}) => {
-  const history = useHistory();
+const EndQuizModal = ({ setEndQuizModal, setSuccessModal }) => {
   return (
     <EndQuizWrapper>
       <div className="quiz-modal">

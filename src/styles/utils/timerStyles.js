@@ -1,6 +1,11 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
+const media = {
+  mobile: "@media(max-width:600px)",
+};
 export const TimerWrapper = styled.div`
+  display: flex;
+  align-items: center;
   .timer-container {
     background-color: #fff;
     padding: 1rem;
@@ -9,6 +14,12 @@ export const TimerWrapper = styled.div`
     span {
       color: black;
       font-weight: bold;
+    }
+  }
+  ${media.mobile} {
+    .timer-container {
+      padding: 0.5rem;
+      font-size: 0.8rem;
     }
   }
 `;

@@ -1,7 +1,13 @@
 import React from "react";
 import { SuccessWrapper } from "../../styles/modals/successWrapper";
 import { useHistory } from "react-router-dom";
-const EndQuizModal = ({ correctCount, answer, countUpdated, noOfQuestion }) => {
+const EndQuizModal = ({
+  correctCount,
+  answer,
+  countUpdated,
+  noOfQuestion,
+  category,
+}) => {
   const history = useHistory();
   return (
     <SuccessWrapper>
@@ -18,6 +24,7 @@ const EndQuizModal = ({ correctCount, answer, countUpdated, noOfQuestion }) => {
                   answer: answer,
                   countUpdated: countUpdated,
                   noOfQuestion: noOfQuestion,
+                  category: category,
                 },
               })
             }

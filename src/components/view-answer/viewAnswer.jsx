@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { ViewAnswerWrapper } from "../../styles/viewAnswerStyles";
 import { useHistory } from "react-router-dom";
+import { MdOutlineHome } from "react-icons/md";
 
 import {
   FormControl,
-  FormLabel,
   FormControlLabel,
   RadioGroup,
   Radio,
@@ -12,22 +12,15 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 import { getQuestions } from "../../actions/quiz";
-import { PieChart } from "recharts";
 
 const ViewAnswer = (props) => {
-  //   console.log(props);
-  //   const category = props.location.state.category;
-  //   const quizTime = props.location.state.time;
-  console.log(props);
   const answers = props?.location?.answer;
-
+  const category = props?.location?.category;
   const history = useHistory();
   const dispatch = useDispatch();
-  const { quiz, isLoading } = useSelector((state) => state.quiz);
-  console.log(quiz, isLoading, answers);
+  const { quiz } = useSelector((state) => state.quiz);
 
   const [qno, setQno] = useState(0);
-  // console.log(answers[qno], quiz.quizQuestions[0].correctAnswer);
   const [answer, setAnswers] = useState([]);
   const [countUpdated, setCountUpdated] = useState([]);
 
@@ -44,7 +37,6 @@ const ViewAnswer = (props) => {
     if (qno < quiz.quizQuestions.length - 1) {
       setQno(qno + 1);
     } else {
-      const count = countUpdated.filter(Boolean).length;
       setQno(quiz.quizQuestions.length - 1);
       history.push("/");
     }
@@ -67,25 +59,16 @@ const ViewAnswer = (props) => {
   };
 
   useEffect(() => {
-    dispatch(getQuestions("Maths-1"));
-  }, [dispatch]);
+    dispatch(getQuestions(category));
+  }, [dispatch, category]);
 
   return (
     <>
-      {isLoading ? (
-        <div>Loading</div>
-      ) : (
-        <ViewAnswerWrapper>
+      <ViewAnswerWrapper>
+        {answers && (
           <div className="quiz-body">
             {quiz?.quizQuestions &&
               quiz.quizQuestions.map((item, index) => {
-                console.log(
-                  answers[qno],
-                  item.option1,
-                  item.option2,
-                  item.option3,
-                  item.option4
-                );
                 return (
                   <div key={index} className="quiz-item">
                     {qno === index && (
@@ -180,8 +163,19 @@ const ViewAnswer = (props) => {
               </button>
             </div>
           </div>
-        </ViewAnswerWrapper>
-      )}
+        )}
+
+        {!answers && (
+          <div className="buttons-container">
+            <button className="back-home" onClick={() => history.push("/")}>
+              <span>
+                <MdOutlineHome />
+              </span>
+              Home{" "}
+            </button>
+          </div>
+        )}
+      </ViewAnswerWrapper>
     </>
   );
 };

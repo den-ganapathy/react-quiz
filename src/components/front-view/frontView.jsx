@@ -5,7 +5,6 @@ import BeginQuizModal from "../modals/beginQuizModal";
 import { getQuiz } from "../../actions/quiz";
 import { useDispatch, useSelector } from "react-redux";
 import { BsBoxArrowRight } from "react-icons/bs";
-import axios from "axios";
 import _ from "lodash";
 import { LoadingWrapper } from "../../styles/utils/loadingStyles";
 
@@ -29,13 +28,8 @@ const FrontView = () => {
   };
 
   function fetchData(search) {
-    // axios.get(`http://localhost:8080/quiz/get-details?search=${search}`);
     dispatch(getQuiz(search));
   }
-
-  // useEffect(() => {
-  //   dispatch(getQuiz(search));
-  // }, [dispatch]);
 
   useEffect(() => {
     debounceLoadData(search);
@@ -58,9 +52,9 @@ const FrontView = () => {
           ) : (
             <div className="quiz-container">
               {quiz?.quiz?.quizDetails &&
-                quiz.quiz.quizDetails.map((item) => {
+                quiz.quiz.quizDetails.map((item, index) => {
                   return (
-                    <div className="quiz-item">
+                    <div key={index} className="quiz-item">
                       <div className="quiz-category">{item.category}</div>
                       <div className="quiz-content">
                         <div className="quiz-content-left">

@@ -1,5 +1,7 @@
 import styled from "styled-components";
-
+const media = {
+  mobile: "@media(max-width:600px)",
+};
 export const HeaderWrapper = styled.div`
   width: 100vw;
   display: flex;
@@ -11,9 +13,15 @@ export const HeaderWrapper = styled.div`
   opacity: 0.8;
   img {
     width: 15rem;
-    height: aito;
+    height: auto;
     background-repeat: no-repeat;
     object-fit: cover;
     cursor: pointer;
+  }
+  ${media.mobile} {
+    height: 3.5rem;
+    img {
+      width: 10rem;
+    }
   }
 `;

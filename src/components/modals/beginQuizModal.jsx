@@ -3,7 +3,6 @@ import { BeginQuizWrapper } from "../../styles/modals/beginQuizStyles";
 import { useHistory } from "react-router-dom";
 import { quizConditions } from "./../../constants/quizDetails";
 const BeginQuizModal = ({ setShowQuizModal, category, time, noOfQuestion }) => {
-  console.log(setShowQuizModal, category);
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const history = useHistory();
@@ -22,6 +21,8 @@ const BeginQuizModal = ({ setShowQuizModal, category, time, noOfQuestion }) => {
       setError("Please Enter you name");
     } else {
       setError("");
+      setShowQuizModal(false);
+
       history.push({
         pathname: "/quiz",
         state: {
@@ -39,9 +40,9 @@ const BeginQuizModal = ({ setShowQuizModal, category, time, noOfQuestion }) => {
       <div className="quiz-modal">
         <div className="quiz-instructions">
           <p>Please read the instructions below : </p>
-          {quizConditions.map((item) => {
+          {quizConditions.map((item, index) => {
             return (
-              <div className="quiz-conditions">
+              <div key={index} className="quiz-conditions">
                 {item.content}
                 <br />
                 <br />

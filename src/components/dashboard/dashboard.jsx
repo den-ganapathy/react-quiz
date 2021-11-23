@@ -3,26 +3,12 @@ import { DashboardWrapper } from "./../../styles/dashboardStyles";
 import { useHistory } from "react-router-dom";
 import { MdOpenInNew, MdOutlineHome } from "react-icons/md";
 
-import {
-  BarChart,
-  Legend,
-  Bar,
-  CartesianGrid,
-  Tooltip,
-  XAxis,
-  YAxis,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-} from "recharts";
+import { BarChart, Legend, Bar, Tooltip, XAxis, YAxis } from "recharts";
 const Dashboard = (props) => {
   const history = useHistory();
-  console.log(props);
-  // const { answer, countUpdated, correctCount } = props?.location?.state;
   const answer = props?.location?.state?.answer;
   const countUpdated = props?.location?.state?.countUpdated;
   const noOfQuestion = props?.location?.state?.noOfQuestion;
-  console.log(answer);
 
   const handleClick = () => {
     history.push({ pathname: "/view-answers", answer: answer });
@@ -39,10 +25,9 @@ const Dashboard = (props) => {
       {answer && (
         <div className="graph-container">
           <div className="graph-item">
-            {/* <ResponsiveContainer> */}
             <BarChart
-              width={320}
-              height={320}
+              width={280}
+              height={280}
               barGap={30}
               data={[
                 {
@@ -63,7 +48,7 @@ const Dashboard = (props) => {
               <Bar
                 label={{ position: "top" }}
                 dataKey="correct"
-                fill="#5BDA12"
+                fill="#48a268"
                 width={30}
                 height={25}
                 barSize={40}
@@ -85,8 +70,6 @@ const Dashboard = (props) => {
                 barSize={40}
               />
             </BarChart>
-
-            {/* </ResponsiveContainer> */}
           </div>
         </div>
       )}

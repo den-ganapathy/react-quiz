@@ -13,7 +13,6 @@ export const getQuiz = (search) => async (dispatch) => {
       dispatch({ type: START_LOADING });
     }
     const { data } = await api.fetchQuiz(search);
-    console.log(data);
     dispatch({ type: FETCH_QUIZ, payload: { quiz: data } });
     dispatch({ type: END_LOADING });
   } catch (error) {
@@ -22,16 +21,12 @@ export const getQuiz = (search) => async (dispatch) => {
 };
 
 export const getQuestions = (category) => async (dispatch) => {
-  console.log(category);
   try {
-    dispatch({ type: START_LOADING });
     const { data } = await api.fetchQuestions(category);
-    console.log(data);
     dispatch({
       type: FETCH_QUESTION,
       payload: { quizQuestions: data.quizQuestions },
     });
-    dispatch({ type: END_LOADING });
   } catch (error) {
     console.log(error);
   }

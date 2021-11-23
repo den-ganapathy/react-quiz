@@ -1,14 +1,24 @@
 import styled from "styled-components";
 
+const media = {
+  mobile: "@media(max-width:600px)",
+};
+
 export const DashboardWrapper = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
+
   .marks-scored {
     font-size: 3rem;
     text-align: center;
-    padding: 5rem;
+    padding: 6rem;
+    padding-bottom: 4rem;
+    ${media.mobile} {
+      font-size: 1.5rem;
+      padding: 6rem 0 2rem 0;
+    }
   }
   .graph-container {
     display: flex;
@@ -21,8 +31,11 @@ export const DashboardWrapper = styled.div`
       flex: 0 0 25%;
       box-shadow: 0 0 10px grey;
       padding: 2rem 3rem 2rem 1rem;
-      /* align-items: center; */
       justify-content: center;
+      background-color: white;
+      ${media.mobile} {
+        padding: 1rem;
+      }
 
       .bar {
         display: flex;
@@ -34,7 +47,10 @@ export const DashboardWrapper = styled.div`
     display: flex;
     justify-content: space-evenly;
     margin: 3rem;
-    /* align-items: center; */
+    ${media.mobile} {
+      justify-content: space-between;
+      margin: 2rem 1.5rem;
+    }
     .view-answer {
       display: flex;
       align-items: center;
@@ -56,7 +72,14 @@ export const DashboardWrapper = styled.div`
         align-items: center;
         font-size: 1.5rem;
         padding-left: 0.5rem;
-        /* justify-content: center; */
+      }
+      ${media.mobile} {
+        font-size: 0.8rem;
+
+        padding: 0.5rem 0.8rem;
+        span {
+          font-size: 1rem;
+        }
       }
     }
     .back-home {
@@ -73,7 +96,6 @@ export const DashboardWrapper = styled.div`
       font-weight: bold;
       opacity: 0.9;
       :hover {
-        /* border: 2px solid darkblue; */
         opacity: 1;
       }
       span {
@@ -81,6 +103,13 @@ export const DashboardWrapper = styled.div`
         align-items: center;
         font-size: 1.5rem;
         padding-right: 0.5rem;
+      }
+      ${media.mobile} {
+        font-size: 0.8rem;
+        padding: 0.5rem 0.8rem;
+        span {
+          font-size: 1rem;
+        }
       }
     }
   }
