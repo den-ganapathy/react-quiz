@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:8080" });
+const API = axios.create({
+  baseURL: "https://quizilicious-api.herokuapp.com",
+});
 
 export const fetchQuiz = (search) =>
   API.get(`/quiz/get-details?search=${search}`);
